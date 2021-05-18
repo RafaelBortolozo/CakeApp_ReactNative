@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet} from "react-native";
+import { View} from "react-native";
 import { List, Button } from "react-native-paper"
 import { AntDesign } from '@expo/vector-icons';
 
@@ -16,17 +16,17 @@ Comments: ${props.order.comments}`
         description={description}
         descriptionNumberOfLines={5}
         right={paperProps => 
-           <Button style={styles.icon} onPress={() => props.removeOrder(props.order.id)}>
-               <AntDesign {...paperProps} style={styles.icon} name="closesquare" size={25} color="#fc5c65" />
-           </Button>}
+           <View>
+              <Button onPress={() => props.editOrder(props.order.id)}>
+                  <AntDesign {...paperProps} name="edit" size={25} color="black" />
+              </Button>
+              <Button onPress={() => props.removeOrder(props.order.id)}>
+                  <AntDesign {...paperProps} name="closesquare" size={25} color="#fc5c65" />
+              </Button>
+           </View>
+        }   
     />
   )
 }
-
-const styles = StyleSheet.create({
-    icon: {
-        marginTop: 30
-    }
-})
 
 export default OrderItem

@@ -5,13 +5,13 @@ import firebase from "firebase/app"
 import "firebase/firestore"
 
 var firebaseConfig = {
-    apiKey: "AIzaSyADiNyKx9-AoqSrEOVxoonCLEjavIrGa6k",
-    authDomain: "pedidosbolos-4bc11.firebaseapp.com",
-    projectId: "pedidosbolos-4bc11",
-    storageBucket: "pedidosbolos-4bc11.appspot.com",
-    messagingSenderId: "146294902907",
-    appId: "1:146294902907:web:10ee903242f1235d3252de",
-    measurementId: "G-ZHHGTF6XMJ"
+  apiKey: "AIzaSyDP1Z03-bh1NYdkMyyavsv4YSuZkdTXGH4",
+  authDomain: "pedidosbolos-9d33a.firebaseapp.com",
+  projectId: "pedidosbolos-9d33a",
+  storageBucket: "pedidosbolos-9d33a.appspot.com",
+  messagingSenderId: "390004766574",
+  appId: "1:390004766574:web:c197e351f1a4d3b4a8b37f",
+  measurementId: "G-23E9KMWRN9"
 };
 
 if(!firebase.apps.length){
@@ -19,19 +19,27 @@ if(!firebase.apps.length){
 }
 const db = firebase.firestore()
 
+
 export default function EditScreen(props){
+  const navigation = props?.navigation;
+  const itemToUpdate = props.navigation?.state?.params;
 
-  let[order, setOrder]= useState({});
-
-  async function editOrder(){
-    const res = await db.collection("orders").set(order)
-    return {id: res.id,...order}
+  let[order, setOrder]= useState(itemToUpdate);
+  
+  function editOrder(){
+    db.collection("orders").doc(order.id).update(order).then(res => {
+      navigation.navigate('List', {
+        updated: true,
+      })
+      }).catch(err => {
+        console.log(err)
+      })
   }
 
   return(
     <KeyboardAvoidingView>
         <ScrollView>
-          <View>
+          <View style={styles.container}>
             <TextInput 
               style={styles.input}
               selectionColor='black'
@@ -90,10 +98,7 @@ export default function EditScreen(props){
             
             <Button style={styles.button} 
                     mode='contained' 
-                    onPress={() => {
-                      editOrder()
-                      props.navigation.navigate('List');
-                    }}>
+                    onPress={editOrder}>
               EDIT
             </Button>
           </View>
